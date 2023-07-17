@@ -1,52 +1,88 @@
-import { Piece } from './Piece';
+import { Piece } from './Piece'
+import { v4 as uuid } from 'uuid'
 
-const DEFAULT_ROW_AND_COLUMN = 5;
+const DEFAULT_ROW_AND_COLUMN = 5
+
+type Spot = Piece | null
+
+type CardInput = {
+  id?: string
+  rows?: number
+  columns?: number
+  cardNumbers?: number[]
+}
 
 export class Card {
-  spots: Spot[][] = [];
+  id: string
+  rows: number
+  columns: number
+  spots: Spot[][] = []
 
-  constructor(readonly rows: number = DEFAULT_ROW_AND_COLUMN, readonly columns: number = DEFAULT_ROW_AND_COLUMN) {
-    this.spots = Array.from({ length: rows }, () => Array.from({ length: columns }, () => null));
+  constructor({
+    id = uuid(),
+    rows = DEFAULT_ROW_AND_COLUMN,
+    columns = DEFAULT_ROW_AND_COLUMN,
+    cardNumbers,
+  }: CardInput = {}) {
+    this.id = id
+    this.rows = rows
+    this.columns = columns
+    this.spots = this.setSpots(cardNumbers)
+  }
+
+  setSpots(cardNumbers?: number[]): Spot[][] {
+    if (!cardNumbers) {
+      return Array.from({ length: this.rows }, () => Array.from({ length: this.columns }, () => null))
+    }
+    let currentPosition = 0
+    const spots = []
+    while (currentPosition < cardNumbers.length) {
+      const rowNumbers = cardNumbers.slice(currentPosition, currentPosition + this.columns)
+      const row = rowNumbers.map((number) => new Piece(number))
+      spots.push(row)
+      currentPosition += this.columns
+    }
+    return spots
   }
 
   setPiece(row: number, column: number, number: number) {
-    if (row < 0 || row > this.rows) throw new Error('Row does not exist');
-    if (column < 0 || column > this.columns) throw new Error('Column does not exist');
-    const piece = new Piece(number);
-    this.spots[row][column] = piece;
+    if (row < 0 || row > this.rows) throw new Error('Row does not exist')
+    if (column < 0 || column > this.columns) throw new Error('Column does not exist')
+    const piece = new Piece(number)
+    this.spots[row][column] = piece
   }
 
   draw(number: number) {
     this.spots.forEach((row) => {
       row.forEach((spot) => {
-        if (spot?.toJson().number === number) spot.setAsDrawn();
-      });
-    });
+        if (spot?.toJson().number === number) spot.setAsDrawn()
+      })
+    })
   }
 
   hasSomeCompleteRows() {
-    return this.spots.some((row) => row.every((spot) => spot?.getIsDraw()));
+    return this.spots.some((row) => row.every((spot) => spot?.getIsDraw()))
   }
 
   hasSomeCompleteColumns() {
     return Array.from({ length: this.columns }, (_, column) => {
-      return this.spots.every((row) => row[column]?.getIsDraw());
-    }).some((completeColumn) => completeColumn);
+      return this.spots.every((row) => row[column]?.getIsDraw())
+    }).some((completeColumn) => completeColumn)
   }
 
   hasSomeCompleteDiagonals() {
-    if (this.rows !== this.columns) return false;
+    if (this.rows !== this.columns) return false
     const descendingDiagonal = Array.from({ length: this.columns }, (_, index) => {
-      return this.spots[index][index]?.getIsDraw();
-    }).every((completeDiagonal) => completeDiagonal);
+      return this.spots[index][index]?.getIsDraw()
+    }).every((completeDiagonal) => completeDiagonal)
     const ascendingDiagonal = Array.from({ length: this.columns }, (_, index) => {
-      return this.spots[index][this.columns - 1 - index]?.getIsDraw();
-    }).every((completeDiagonal) => completeDiagonal);
-    return descendingDiagonal || ascendingDiagonal;
+      return this.spots[index][this.columns - 1 - index]?.getIsDraw()
+    }).every((completeDiagonal) => completeDiagonal)
+    return descendingDiagonal || ascendingDiagonal
   }
 
   hasCompletedTheCard() {
-    return this.spots.every((row) => row.every((column) => column?.getIsDraw()));
+    return this.spots.every((row) => row.every((column) => column?.getIsDraw()))
   }
 
   getResults() {
@@ -55,7 +91,7 @@ export class Card {
       column: this.hasSomeCompleteColumns(),
       diagonal: this.hasSomeCompleteDiagonals(),
       complete: this.hasCompletedTheCard(),
-    };
+    }
   }
 
   toJson() {
@@ -64,8 +100,6 @@ export class Card {
       columns: this.columns,
       spots: this.spots,
       results: this.getResults(),
-    };
+    }
   }
 }
-
-type Spot = Piece | null;
