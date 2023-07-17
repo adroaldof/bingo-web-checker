@@ -1,7 +1,7 @@
 import { beforeEach, expect, it } from 'vitest';
-import { Card } from './card';
+import { Card } from './Card';
 import { faker } from '@faker-js/faker';
-import { Piece } from './piece';
+import { Piece } from './Piece';
 
 let piece: number;
 const defaultIndexes = [0, 1, 2, 3, 4];

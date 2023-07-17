@@ -1,4 +1,4 @@
-import { Piece } from './piece';
+import { Piece } from './Piece';
 
 const DEFAULT_ROW_AND_COLUMN = 5;
 

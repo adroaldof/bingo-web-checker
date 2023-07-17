@@ -1,6 +1,6 @@
 import { expect, it } from 'vitest';
 import { faker } from '@faker-js/faker';
-import { Piece } from './piece';
+import { Piece } from './Piece';
 
 it('throws when a number is lower than 0', () => {
   expect(() => new Piece(-1)).toThrow('Number must be greater than 0');
