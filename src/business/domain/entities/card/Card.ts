@@ -1,30 +1,30 @@
-import { Piece } from './Piece'
-import { v4 as uuid } from 'uuid'
+import { Piece } from '../piece/Piece'
+import { v4 as uuidV4 } from 'uuid'
 
 const DEFAULT_ROW_AND_COLUMN = 5
 
 type Spot = Piece | null
 
-type CardInput = {
-  id?: string
+export type CardInput = {
+  uuid?: string
   rows?: number
   columns?: number
   cardNumbers?: number[]
 }
 
 export class Card {
-  id: string
+  uuid: string
   rows: number
   columns: number
   spots: Spot[][] = []
 
   constructor({
-    id = uuid(),
+    uuid = uuidV4(),
     rows = DEFAULT_ROW_AND_COLUMN,
     columns = DEFAULT_ROW_AND_COLUMN,
     cardNumbers,
   }: CardInput = {}) {
-    this.id = id
+    this.uuid = uuid
     this.rows = rows
     this.columns = columns
     this.spots = this.setSpots(cardNumbers)
@@ -38,7 +38,7 @@ export class Card {
     const spots = []
     while (currentPosition < cardNumbers.length) {
       const rowNumbers = cardNumbers.slice(currentPosition, currentPosition + this.columns)
-      const row = rowNumbers.map((number) => new Piece(number))
+      const row = rowNumbers.map((number) => new Piece({ number }))
       spots.push(row)
       currentPosition += this.columns
     }
@@ -48,7 +48,7 @@ export class Card {
   setPiece(row: number, column: number, number: number) {
     if (row < 0 || row > this.rows) throw new Error('Row does not exist')
     if (column < 0 || column > this.columns) throw new Error('Column does not exist')
-    const piece = new Piece(number)
+    const piece = new Piece({ number })
     this.spots[row][column] = piece
   }
 
@@ -96,6 +96,7 @@ export class Card {
 
   toJson() {
     return {
+      uuid: this.uuid,
       rows: this.rows,
       columns: this.columns,
       spots: this.spots,

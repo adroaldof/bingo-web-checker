@@ -1,7 +1,7 @@
 import { beforeEach, expect, it } from 'vitest'
 import { Card } from './Card'
 import { faker } from '@faker-js/faker'
-import { Piece } from './Piece'
+import { Piece } from '../piece/Piece'
 
 let piece: number
 const defaultIndexes = [0, 1, 2, 3, 4]
@@ -21,6 +21,7 @@ it('a card have rows, columns and pieces', () => {
   const output = card.toJson()
   expect(output).toEqual(
     expect.objectContaining({
+      uuid: expect.any(String),
       rows: expect.any(Number),
       columns: expect.any(Number),
       spots: expect.any(Array),
