@@ -20,6 +20,9 @@
       }
     ],
     "paths": {
+      "@/ports/*": ["./src/business/application/ports/*"],
+      "@/use-cases/*": ["./src/business/application/use-cases/*"],
+      "@/entities/*": ["./src/business/domain/entities/*"],
       "@/*": ["./src/*"]
     }
   },
