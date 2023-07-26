@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker'
-import { Piece, PieceInput } from './Piece'
+import { PieceEntity, PieceInput } from './Piece'
 
-export const mockPiece = (overrides: Partial<PieceInput> = {}): Piece =>
-  new Piece({
+export const mockPiece = (overrides: Partial<PieceInput> = {}): PieceEntity =>
+  new PieceEntity({
     number: faker.number.int(),
     isDrawn: faker.datatype.boolean(),
     ...overrides,
