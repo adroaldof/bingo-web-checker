@@ -39,28 +39,10 @@ export const CreateCardForm = ({ onSuccess }: CreateCardFormProps) => {
         </div>
         <div className="flex items-center justify-between gap-2 md:w-full">
           <label className="block font-bold">Números</label>
-          <input
-            type="text"
+          <textarea
             {...register('cardNumbers')}
+            rows={5}
             data-cy="card-numbers"
-            className="p-2 leading-tight text-gray-500 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-          />
-        </div>
-        <div className="flex items-center justify-between gap-2 md:w-full">
-          <label className="block font-bold">Linhas:</label>
-          <input
-            type="number"
-            {...register('rows')}
-            data-cy="card-rows"
-            className="p-2 leading-tight text-gray-500 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-          />
-        </div>
-        <div className="flex items-center justify-between gap-2 md:w-full">
-          <label className="block font-bold">Colunas:</label>
-          <input
-            type="number"
-            {...register('columns')}
-            data-cy="card-columns"
             className="p-2 leading-tight text-gray-500 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
           />
         </div>
