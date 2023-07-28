@@ -62,8 +62,10 @@ export class CardEntity {
     let currentPosition = 0
     const spots = []
     while (currentPosition < cardNumbers.length) {
-      const rowNumbers = cardNumbers.slice(currentPosition, currentPosition + this.columns)
-      const row = rowNumbers.map((number) => new PieceEntity({ number }))
+      const prefix = cardNumbers.slice(0, 12)
+      const suffix = cardNumbers.slice(12)
+      const rowNumbers = [...prefix, 0, ...suffix].slice(currentPosition, currentPosition + this.columns)
+      const row = rowNumbers.map((number) => new PieceEntity({ number, isDrawn: number === 0 }))
       spots.push(row)
       currentPosition += this.columns
     }

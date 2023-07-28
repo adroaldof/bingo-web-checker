@@ -1,6 +1,7 @@
 import { beforeEach, expect, it } from 'vitest'
 import { CardEntity } from './Card'
 import { faker } from '@faker-js/faker'
+import { generateUniqueCardNumbers } from './Card.mocks'
 
 let piece: number
 const defaultIndexes = [0, 1, 2, 3, 4]
@@ -150,9 +151,22 @@ it('returns winning on complete custom card row and column', () => {
 })
 
 it('generates a card passing the numbers', () => {
-  const cardNumbers = Array.from({ length: 25 }, (_, index) => index)
+  const cardNumbers = generateUniqueCardNumbers()
   const card = new CardEntity({ cardNumbers })
   const cardOutput = card.toJson()
   expect(cardOutput.spots[0][0]).not.toBeNull()
   expect(cardOutput.spots[4][4]).not.toBeNull()
+})
+
+it('the center card must be empty and marked as drawn', () => {
+  const cardNumbers = generateUniqueCardNumbers()
+  const card = new CardEntity({ cardNumbers })
+  const { spots } = card.toJson()
+  expect(spots[2][2]).toEqual(
+    expect.objectContaining({
+      uuid: expect.any(String),
+      number: expect.any(Number),
+      isDrawn: true,
+    }),
+  )
 })
