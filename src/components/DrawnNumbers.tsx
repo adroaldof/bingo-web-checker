@@ -18,7 +18,7 @@ export const DrawnNumbers = ({ drawnNumbers }: DrawnNumbersProps) => {
             <div
               key={gridNumber}
               data-cy={`drawn-${gridNumber}`}
-              className={`bg-${backgroundColor}-300 p-1 py-0 flex flex-1 justify-center rounded-sm text-${textColor}-700`}
+              className={`bg-${backgroundColor}-300 p-1 flex flex-1 justify-center rounded-sm text-${textColor}-700`}
             >
               {gridNumber < 10 ? `0${gridNumber}` : gridNumber}
             </div>

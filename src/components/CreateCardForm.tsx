@@ -6,7 +6,7 @@ type CreateCardFormProps = {
 }
 
 export const CreateCardForm = ({ onSuccess }: CreateCardFormProps) => {
-  const { handleSubmit, register, reset } = useForm({
+  const { handleSubmit, register, reset, setFocus } = useForm({
     defaultValues: {
       id: '',
       cardNumbers: '',
@@ -19,6 +19,7 @@ export const CreateCardForm = ({ onSuccess }: CreateCardFormProps) => {
     const card = main.card.createCard.execute(data)
     onSuccess(card)
     reset()
+    setFocus('id')
   }
 
   return (

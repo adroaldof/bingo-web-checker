@@ -8,7 +8,7 @@ export const LastDrawnNumbers = ({ drawnNumbers }: LastDrawNumbersProps) => {
   return (
     <div className="flex flex-col w-1/2">
       <h3>Últimos soteados</h3>
-      <div className="p-2 bg-slate-300">
+      <div className="p-1 bg-slate-100">
         {drawnNumbers.length ? (
           <div className="grid grid-cols-10 gap-1">
             {drawnNumbers.map((number, index) => (
