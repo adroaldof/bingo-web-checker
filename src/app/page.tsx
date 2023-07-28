@@ -13,7 +13,8 @@ export default function Home() {
   const [cards, setCards] = useState<Card[]>([])
 
   const addDrawnNumber = (value: number) => {
-    setDrawnNumber([...drawnNumbers, value])
+    if (drawnNumbers.includes(value)) return
+    setDrawnNumber([value, ...drawnNumbers])
     const updated = cards.map((card) => main.card.drawCardNumber.execute({ card, number: value }))
     setCards(updated)
   }

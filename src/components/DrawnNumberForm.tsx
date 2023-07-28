@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 
 type DrawNumberFormProps = {
@@ -5,7 +6,7 @@ type DrawNumberFormProps = {
 }
 
 export const DrawnNumberForm = ({ onSuccess }: DrawNumberFormProps) => {
-  const { handleSubmit, register, reset } = useForm({
+  const { handleSubmit, register, reset, setFocus } = useForm({
     defaultValues: {
       number: null,
     },
@@ -14,7 +15,12 @@ export const DrawnNumberForm = ({ onSuccess }: DrawNumberFormProps) => {
   const onSubmit = async (data: any) => {
     onSuccess(+data.number)
     reset()
+    setFocus('number')
   }
+
+  useEffect(() => {
+    setFocus('number')
+  }, [setFocus])
 
   return (
     <div className="flex flex-col w-1/2">
