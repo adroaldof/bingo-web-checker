@@ -6,7 +6,7 @@ type DrawnNumbersProps = {
 
 export const DrawnNumbers = ({ drawnNumbers }: DrawnNumbersProps) => {
   return (
-    <div className="flex flex-col w-full">
+    <div className="w-full p-4 bg-slate-100 md:col-span-2 lg:col-span-1">
       <h3>Números sorteados</h3>
       <div data-cy="drawn-numbers" className="grid grid-cols-10 gap-1 p-1 grid-rows-10 bg-slate-200">
         {Array.from(Array(90).keys()).map((number) => {

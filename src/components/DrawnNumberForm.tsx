@@ -28,12 +28,9 @@ export const DrawnNumberForm = ({ onSuccess }: DrawNumberFormProps) => {
   }, [setFocus])
 
   return (
-    <div className="flex flex-col w-1/2">
+    <div className="w-full p-4 bg-slate-200">
       <h3>Adicionar Número Sorteado</h3>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex items-center justify-between gap-2 md:flex-col md:items-start"
-      >
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col justify-between gap-2">
         <div className="w-full">
           <label className="block">
             <span className="block">Número:</span>
@@ -49,7 +46,7 @@ export const DrawnNumberForm = ({ onSuccess }: DrawNumberFormProps) => {
         <button
           type="submit"
           data-cy="drawn-number-submit"
-          className="p-2 leading-tight text-white bg-blue-500 border rounded shadow appearance-none hover:bg-blue-700 focus:outline-none focus:shadow-outline md:w-full"
+          className="w-full p-2 leading-tight text-white bg-blue-500 border rounded shadow appearance-none hover:bg-blue-700 focus:outline-none focus:shadow-outline"
         >
           Adicionar Sorteado
         </button>

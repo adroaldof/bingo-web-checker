@@ -6,7 +6,7 @@ type LastDrawNumbersProps = {
 
 export const LastDrawnNumbers = ({ drawnNumbers }: LastDrawNumbersProps) => {
   return (
-    <div className="flex flex-col w-1/2">
+    <div className="w-full p-4 bg-slate-200">
       <h3>Últimos soteados</h3>
       <div className="p-1 bg-slate-100">
         {drawnNumbers.length ? (
