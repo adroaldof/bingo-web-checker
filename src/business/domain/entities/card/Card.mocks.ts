@@ -13,7 +13,7 @@ export const mockCard = (overrides: Partial<CardInput> = {}): CardEntity => {
 }
 
 export const generateUniqueCardNumbers = (input?: { length: number }): number[] => {
-  const { length } = input || { length: 25 }
+  const { length } = input || { length: 24 }
   const cardNumbers: number[] = []
   while (cardNumbers.length < length) {
     const randomNumber = faker.number.int({ min: 1, max: 90 })

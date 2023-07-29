@@ -1,3 +1,4 @@
+import { o } from 'vitest/dist/types-198fd1d9'
 import { generateUniqueCardNumbers } from '../../src/business/domain/entities/card/Card.mocks'
 import { faker } from '@faker-js/faker'
 
@@ -32,8 +33,8 @@ describe('setup a bingo', () => {
 
   it('adds a card to the board', () => {
     cy.visit('/')
-    cy.get('[data-cy="card-id"]').type(cardId)
-    cy.get('[data-cy="card-numbers"]').type(cardNumbers.join(','))
+    cy.get('[data-cy="add-card-id"]').type(cardId)
+    cy.get('[data-cy="add-card-numbers"]').type(cardNumbers.join(','))
     cy.get('[data-cy="add-card-submit"]').click()
     cy.get(`[data-cy="card-${cardId}-spot-${cardNumbers[0]}"]`).should(($p) => {
       expect($p).to.contain(`${cardNumbers[0]}`)
@@ -42,8 +43,8 @@ describe('setup a bingo', () => {
 
   it('marks a spot on a card when it is draw', () => {
     cy.visit('/')
-    cy.get('[data-cy="card-id"]').type(cardId)
-    cy.get('[data-cy="card-numbers"]').type(cardNumbers.join(','))
+    cy.get('[data-cy="add-card-id"]').type(cardId)
+    cy.get('[data-cy="add-card-numbers"]').type(cardNumbers.join(','))
     cy.get('[data-cy="add-card-submit"]').click()
     const drawnNumber = cardNumbers[0]
     cy.get('[data-cy="drawn-number-input"]').type(`${drawnNumber}`)
@@ -55,10 +56,11 @@ describe('setup a bingo', () => {
 
   it('make row background blue when it is completed', () => {
     cy.visit('/')
-    cy.get('[data-cy="card-id"]').type(cardId)
-    cy.get('[data-cy="card-numbers"]').type(cardNumbers.join(','))
+    cy.get('[data-cy="add-card-id"]').type(cardId)
+    cy.get('[data-cy="add-card-numbers"]').type(cardNumbers.join(','))
     cy.get('[data-cy="add-card-submit"]').click()
-    cardNumbers.slice(0, 5).forEach((drawnNumber) => {
+    const numbersToDrawn = prepareCardNumbersToDrawn(cardNumbers)
+    numbersToDrawn.slice(0, 5).forEach((drawnNumber) => {
       cy.get('[data-cy="drawn-number-input"]').type(`${drawnNumber}`)
       cy.get('[data-cy="drawn-number-submit"]').click()
     })
@@ -67,10 +69,11 @@ describe('setup a bingo', () => {
 
   it('make column background blue when it is completed', () => {
     cy.visit('/')
-    cy.get('[data-cy="card-id"]').type(cardId)
-    cy.get('[data-cy="card-numbers"]').type(cardNumbers.join(','))
+    cy.get('[data-cy="add-card-id"]').type(cardId)
+    cy.get('[data-cy="add-card-numbers"]').type(cardNumbers.join(','))
     cy.get('[data-cy="add-card-submit"]').click()
-    const rowIndexes = [0, 5, 10, 15, 20].map((index) => cardNumbers[index + 1])
+    const numbersToDrawn = prepareCardNumbersToDrawn(cardNumbers)
+    const rowIndexes = [0, 5, 10, 15, 20].map((index) => numbersToDrawn[index + 1])
     rowIndexes.forEach((drawnNumber) => {
       cy.get('[data-cy="drawn-number-input"]').type(`${drawnNumber}`)
       cy.get('[data-cy="drawn-number-submit"]').click()
@@ -80,10 +83,11 @@ describe('setup a bingo', () => {
 
   it('make diagonal background blue when it is completed', () => {
     cy.visit('/')
-    cy.get('[data-cy="card-id"]').type(cardId)
-    cy.get('[data-cy="card-numbers"]').type(cardNumbers.join(','))
+    cy.get('[data-cy="add-card-id"]').type(cardId)
+    cy.get('[data-cy="add-card-numbers"]').type(cardNumbers.join(','))
     cy.get('[data-cy="add-card-submit"]').click()
-    const rowIndexes = [0, 1, 2, 3, 4].map((index) => cardNumbers[index * 6])
+    const numbersToDrawn = prepareCardNumbersToDrawn(cardNumbers)
+    const rowIndexes = [0, 1, 2, 3, 4].map((index) => numbersToDrawn[index * 6])
     rowIndexes.forEach((drawnNumber) => {
       cy.get('[data-cy="drawn-number-input"]').type(`${drawnNumber}`)
       cy.get('[data-cy="drawn-number-submit"]').click()
@@ -93,19 +97,26 @@ describe('setup a bingo', () => {
 
   it('make bingo from one of the six cards', () => {
     cy.visit('/')
-    cy.get('[data-cy="card-id"]').type(cardId)
-    cy.get('[data-cy="card-numbers"]').type(cardNumbers.join(','))
+    cy.get('[data-cy="add-card-id"]').type(cardId)
+    cy.get('[data-cy="add-card-numbers"]').type(cardNumbers.join(','))
     cy.get('[data-cy="add-card-submit"]').click()
     Array.from({ length: 5 }).forEach(() => {
       const newCardNumbers = generateUniqueCardNumbers()
-      cy.get('[data-cy="card-id"]').type(faker.string.nanoid())
-      cy.get('[data-cy="card-numbers"]').type(newCardNumbers.join(','))
+      cy.get('[data-cy="add-card-id"]').type(faker.string.nanoid())
+      cy.get('[data-cy="add-card-numbers"]').type(newCardNumbers.join(','))
       cy.get('[data-cy="add-card-submit"]').click()
     })
-    cardNumbers.forEach((drawnNumber) => {
+    const numbersToDrawn = prepareCardNumbersToDrawn(cardNumbers)
+    numbersToDrawn.forEach((drawnNumber) => {
       cy.get('[data-cy="drawn-number-input"]').type(`${drawnNumber}`)
       cy.get('[data-cy="drawn-number-submit"]').click()
     })
     cy.get(`[data-cy="card-${cardId}-result-complete"]`).should('have.class', 'bg-green-400')
   })
 })
+
+const prepareCardNumbersToDrawn = (cardNumbers: number[]) => {
+  const prefix = cardNumbers.slice(0, 12)
+  const suffix = cardNumbers.slice(12)
+  return [...prefix, 0, ...suffix]
+}

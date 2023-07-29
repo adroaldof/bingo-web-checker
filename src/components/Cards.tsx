@@ -31,7 +31,7 @@ const CardComponent = ({ card }: { card: Card }) => {
     results: { row, column, diagonal, complete, checkedCount },
   } = card
   return (
-    <div className="flex flex-col text-gray-500 bg-gray-100 rounded min-w-md min-w-sm" data-cy="card">
+    <div className="flex flex-col text-gray-500 bg-gray-100 rounded min-w-md min-w-sm" data-cy={`card-${id}`}>
       <div className="flex items-center justify-between p-2 bg-gray-300" data-cy="card">
         <div className="text-sm font-bold" data-cy="card-result-id">
           {card.id}

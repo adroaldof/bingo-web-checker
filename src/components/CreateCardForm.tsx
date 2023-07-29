@@ -30,14 +30,14 @@ export const CreateCardForm = ({ onSuccess }: CreateCardFormProps) => {
   return (
     <div className="w-full p-4 pb-2 bg-slate-200">
       <h3 className="m-0">Adicionar Cartela</h3>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2 md:items-start">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
         <div className="w-full">
           <label className="block">
             <span className="block">ID:</span>
             <input
               type="text"
               {...register('id')}
-              data-cy="card-id"
+              data-cy="add-card-id"
               className="block w-full p-1 px-2 text-gray-900 border border-gray-300 rounded text-md focus:bg-white focus:border-blue-500 focus:outline-none focus:shadow-outline disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
             />
             {errors.id && <p className="m-1 text-sm text-red-500">{errors.id.message}</p>}
@@ -49,7 +49,7 @@ export const CreateCardForm = ({ onSuccess }: CreateCardFormProps) => {
             <textarea
               {...register('cardNumbers')}
               rows={5}
-              data-cy="card-numbers"
+              data-cy="add-card-numbers"
               className="block w-full p-1 px-2 text-gray-900 border border-gray-300 rounded text-md focus:bg-white focus:border-blue-500 focus:outline-none focus:shadow-outline disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
             />
             {errors.cardNumbers && <p className="m-1 text-sm text-red-500">{errors.cardNumbers.message}</p>}
@@ -68,10 +68,7 @@ export const CreateCardForm = ({ onSuccess }: CreateCardFormProps) => {
 }
 
 const createCardSchema = z.object({
-  id: z
-    .string({ required_error: 'Identificador é obrigatório' })
-    .min(1, 'Valor deve ser maior que 1')
-    .max(90, 'Valor deve ser menor que 90'),
+  id: z.string({ required_error: 'Identificador é obrigatório' }),
   cardNumbers: z.string().superRefine((value, context) => {
     if (value.length === 0 || !value.includes(',')) {
       context.addIssue({
