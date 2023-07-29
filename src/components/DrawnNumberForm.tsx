@@ -1,16 +1,21 @@
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 type DrawNumberFormProps = {
   onSuccess: (data: any) => void
 }
 
 export const DrawnNumberForm = ({ onSuccess }: DrawNumberFormProps) => {
-  const { handleSubmit, register, reset, setFocus } = useForm({
+  const { handleSubmit, register, reset, setFocus, formState } = useForm<DrawnNumberSchema>({
+    resolver: zodResolver(drawnNumberSchema),
     defaultValues: {
       number: null,
     },
   })
+
+  const { errors } = formState
 
   const onSubmit = async (data: any) => {
     onSuccess(+data.number)
@@ -29,14 +34,17 @@ export const DrawnNumberForm = ({ onSuccess }: DrawNumberFormProps) => {
         onSubmit={handleSubmit(onSubmit)}
         className="flex items-center justify-between gap-2 md:flex-col md:items-start"
       >
-        <div className="flex items-center justify-between gap-2 md:w-full">
-          <label className="block font-bold">Número:</label>
-          <input
-            type="number"
-            {...register('number')}
-            data-cy="drawn-number-input"
-            className="w-16 p-2 leading-tight text-gray-500 border rounded shadow appearance-none focus:outline-none focus:shadow-outline md:w-full "
-          />
+        <div className="w-full">
+          <label className="block">
+            <span className="block">Número:</span>
+            <input
+              type="number"
+              {...register('number', { valueAsNumber: true })}
+              data-cy="drawn-number-input"
+              className="block w-full p-1 px-2 text-lg text-gray-900 border border-gray-300 rounded focus:bg-white focus:border-blue-500 focus:outline-none focus:shadow-outline disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
+            />
+            {errors.number && <p className="m-1 text-sm text-red-500">{errors.number.message}</p>}
+          </label>
         </div>
         <button
           type="submit"
@@ -49,3 +57,9 @@ export const DrawnNumberForm = ({ onSuccess }: DrawNumberFormProps) => {
     </div>
   )
 }
+
+const drawnNumberSchema = z.object({
+  number: z.number().gte(1).lte(90),
+})
+
+type DrawnNumberSchema = z.infer<typeof drawnNumberSchema> | { number?: number | null }
