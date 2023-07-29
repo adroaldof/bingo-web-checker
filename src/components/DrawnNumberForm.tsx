@@ -59,7 +59,10 @@ export const DrawnNumberForm = ({ onSuccess }: DrawNumberFormProps) => {
 }
 
 const drawnNumberSchema = z.object({
-  number: z.number().gte(1).lte(90),
+  number: z
+    .number({ required_error: 'Número sorteado é obrigatório' })
+    .gte(1, 'Valor mínimo deve ser maior que 1')
+    .lte(90, 'Valor máximo deve ser menor que 90'),
 })
 
 type DrawnNumberSchema = z.infer<typeof drawnNumberSchema> | { number?: number | null }

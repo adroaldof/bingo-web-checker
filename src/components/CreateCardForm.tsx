@@ -71,7 +71,10 @@ export const CreateCardForm = ({ onSuccess }: CreateCardFormProps) => {
 }
 
 const createCardSchema = z.object({
-  id: z.string().min(1).max(100),
+  id: z
+    .string({ required_error: 'Identificador é obrigatório' })
+    .min(1, 'Valor deve ser maior que 1')
+    .max(90, 'Valor deve ser menor que 90'),
   cardNumbers: z.string().superRefine((value, context) => {
     if (value.length === 0 || !value.includes(',')) {
       context.addIssue({
