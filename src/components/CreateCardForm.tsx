@@ -28,12 +28,9 @@ export const CreateCardForm = ({ onSuccess }: CreateCardFormProps) => {
   }
 
   return (
-    <div className="flex flex-col w-full">
-      <h3>Adicionar Cartela</h3>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex items-center justify-between gap-2 md:flex-col md:items-start"
-      >
+    <div className="w-full p-4 pb-2 bg-slate-200">
+      <h3 className="m-0">Adicionar Cartela</h3>
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2 md:items-start">
         <div className="w-full">
           <label className="block">
             <span className="block">ID:</span>
@@ -41,7 +38,7 @@ export const CreateCardForm = ({ onSuccess }: CreateCardFormProps) => {
               type="text"
               {...register('id')}
               data-cy="card-id"
-              className="block w-full p-1 px-2 text-lg text-gray-900 border border-gray-300 rounded focus:bg-white focus:border-blue-500 focus:outline-none focus:shadow-outline disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
+              className="block w-full p-1 px-2 text-gray-900 border border-gray-300 rounded text-md focus:bg-white focus:border-blue-500 focus:outline-none focus:shadow-outline disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
             />
             {errors.id && <p className="m-1 text-sm text-red-500">{errors.id.message}</p>}
           </label>
@@ -53,7 +50,7 @@ export const CreateCardForm = ({ onSuccess }: CreateCardFormProps) => {
               {...register('cardNumbers')}
               rows={5}
               data-cy="card-numbers"
-              className="block w-full p-1 px-2 text-lg text-gray-900 border border-gray-300 rounded focus:bg-white focus:border-blue-500 focus:outline-none focus:shadow-outline disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
+              className="block w-full p-1 px-2 text-gray-900 border border-gray-300 rounded text-md focus:bg-white focus:border-blue-500 focus:outline-none focus:shadow-outline disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
             />
             {errors.cardNumbers && <p className="m-1 text-sm text-red-500">{errors.cardNumbers.message}</p>}
           </label>

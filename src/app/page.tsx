@@ -28,18 +28,13 @@ export default function Home() {
       <header className="py-4 md:p-4 md:px-0">
         <h1 className="mb-0">Bingo</h1>
       </header>
-      <aside className="grid w-full gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <aside className="grid w-full gap-4 mb-4 md:grid-cols-2 lg:grid-cols-3">
         <DrawnNumberForm onSuccess={addDrawnNumber} />
         <LastDrawnNumbers drawnNumbers={drawnNumbers} />
         <DrawnNumbers drawnNumbers={drawnNumbers} />
       </aside>
-      <aside className="flex w-full">
-        <section className="justify-between w-1/3 gap-4 p-4 pt-0 mt-4 bg-slate-100 md:flex">
-          <CreateCardForm onSuccess={addCard} />
-        </section>
-        <section className="justify-between w-2/3 gap-4 p-4 pt-0 mt-4 bg-slate-200 md:flex">
-          <Cards cards={cards} />
-        </section>
+      <aside className="w-full">
+        <Cards cards={cards} addCard={addCard} />
       </aside>
     </main>
   )

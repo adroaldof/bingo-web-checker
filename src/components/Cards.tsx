@@ -1,19 +1,24 @@
 import { Card } from '@/entities/card/Card'
 import React from 'react'
+import { CreateCardForm } from './CreateCardForm'
 
-export const Cards = ({ cards }: { cards: Card[] }) => {
+export const Cards = ({ cards, addCard }: { cards: Card[]; addCard: (card: Card) => void }) => {
   return (
-    <div className="flex flex-col w-full text-gray-500 bg-gray-200 rounded" data-cy="card">
+    <div className="w-full p-4 bg-slate-100">
       <h3>Cartelas</h3>
       {cards.length ? (
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {cards.map((card) => (
             <CardComponent key={card.uuid} card={card} />
           ))}
+          <CreateCardForm onSuccess={addCard} />
         </div>
       ) : (
-        <div className="p-2 bg-slate-300">
-          <p className="m-0">Não há nenhum cartão cadastrado</p>
+        <div className="grid grid-cols-2 gap-4">
+          <div className="p-2 bg-slate-300">
+            <p className="m-0">Não há nenhum cartão cadastrado</p>
+          </div>
+          <CreateCardForm onSuccess={addCard} />
         </div>
       )}
     </div>
@@ -26,7 +31,7 @@ const CardComponent = ({ card }: { card: Card }) => {
     results: { row, column, diagonal, complete, checkedCount },
   } = card
   return (
-    <div className="flex flex-col max-w-md text-gray-500 bg-gray-100 rounded min-w-md min-w-sm" data-cy="card">
+    <div className="flex flex-col text-gray-500 bg-gray-100 rounded min-w-md min-w-sm" data-cy="card">
       <div className="flex items-center justify-between p-2 bg-gray-300" data-cy="card">
         <div className="text-sm font-bold" data-cy="card-result-id">
           {card.id}
@@ -38,7 +43,7 @@ const CardComponent = ({ card }: { card: Card }) => {
           {checkedCount}
         </div>
       </div>
-      <div className="grid grid-cols-4 gap-1 p-2" data-cy="card">
+      <div className="grid grid-cols-4 gap-1 p-2 bg-gray-200" data-cy="card">
         <div
           className={`py-2 text-center font-bold text-sm rounded-sm ${complete ? 'bg-green-400 text-gray-800' : ''}`}
           data-cy={`card-${id}-result-complete`}
