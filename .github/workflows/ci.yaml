@@ -24,7 +24,7 @@ jobs:
         run: npm run test
 
       - name: Run coverage tests
-        run: npm run test
+        run: npm run coverage
 
       - name: Run End-to-End tests
         uses: cypress-io/github-action@v3
