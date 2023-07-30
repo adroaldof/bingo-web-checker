@@ -9,6 +9,7 @@ export default defineConfig({
   test: {
     coverage: {
       reporter: ['text', 'text-summary', 'html'],
+      provider: 'v8',
       skipFull: true,
     },
     testTimeout: 5000,
