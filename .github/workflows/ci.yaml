@@ -27,7 +27,7 @@ jobs:
         run: npm run coverage
 
       - name: Run End-to-End tests
-        uses: cypress-io/github-action@v3
+        uses: cypress-io/github-action@v5
         with:
           project: ./site
           browser: chrome
