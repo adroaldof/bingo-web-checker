@@ -28,7 +28,6 @@ jobs:
       - name: Run End-to-End tests
         uses: cypress-io/github-action@v5
         with:
-          browser: chrome
           build: npm run build
           start: npm run start
           wait-on: "http://localhost:3000"
