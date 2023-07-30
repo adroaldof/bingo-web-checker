@@ -9,9 +9,8 @@ on:
       - main
 
 jobs:
-  running-tests:
+  Unit and Coverage tests:
     runs-on: ubuntu-latest
-    container: node:19.5.0
 
     steps:
       - name: Checkout repository code
@@ -26,6 +25,10 @@ jobs:
       - name: Run coverage tests
         run: npm run coverage
 
+  End-to-End tests:
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Run End-to-End tests
         uses: cypress-io/github-action@v5
         with:
