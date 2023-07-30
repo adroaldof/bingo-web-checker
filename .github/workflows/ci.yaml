@@ -8,60 +8,16 @@ on:
     branches:
       - main
 
-# https://dev.to/drakulavich/aggressive-dependency-caching-in-github-actions-3c64
 jobs:
-  install:
+  unit-and-coverage-tests:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository code
         uses: actions/checkout@v3
 
-      - name: Run End-to-End tests
-        uses: cypress-io/github-action@v5
-        with:
-          runTests: false
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version-file: ".nvmrc"
-          cache: "npm"
-
-      - name: Cache NPM dependencies
-        uses: actions/cache@v3
-        id: cache-node-modules
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
-
-      - name: Install dependencies
-        if: steps.cache-node-modules.outputs.cache-hit != 'true'
-        run: npm ci
-
-      - name: Save build folder
-        uses: actions/upload-artifact@v3
-        with:
-          name: build
-          if-no-files-found: error
-          path: build
-
-  unit-and-coverage-tests:
-    needs:
-      - install
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version-file: ".nvmrc"
-          cache: "npm"
-
-      - name: Cache NPM dependencies
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-npm-v3-${{ hashFiles('package-lock.json') }}
+      - name: Install NPM dependencies
+        run: npm install
 
       - name: Run tests
         run: npm run test
@@ -69,32 +25,9 @@ jobs:
       - name: Run coverage tests
         run: npm run coverage
 
-  end-to-end-tests:
-    needs:
-      - install
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version-file: ".nvmrc"
-          cache: "npm"
-
-      - name: Cache NPM dependencies
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-npm-v3-${{ hashFiles('package-lock.json') }}
-
-      - name: Download the build folders
-        uses: actions/download-artifact@v3
-        with:
-          name: build
-          path: build
-
       - name: Run End-to-End tests
         uses: cypress-io/github-action@v5
         with:
+          build: npm run build
           start: npm run start
           wait-on: "http://localhost:3000"
