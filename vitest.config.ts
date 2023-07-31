@@ -13,12 +13,15 @@ export default defineConfig({
       skipFull: true,
     },
     testTimeout: 5000,
+    globals: true,
+    environment: 'jsdom',
   },
   resolve: {
     alias: {
       '@/ports': path.resolve(__dirname, './src/business/application/ports'),
       '@/use-cases': path.resolve(__dirname, './src/business/application/use-cases'),
       '@/entities': path.resolve(__dirname, './src/business/domain/entities'),
+      '@/business': path.resolve(__dirname, './src/business'),
       '@/': path.resolve(__dirname, './src'),
     },
   },

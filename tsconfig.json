@@ -23,9 +23,10 @@
       "@/ports/*": ["./src/business/application/ports/*"],
       "@/use-cases/*": ["./src/business/application/use-cases/*"],
       "@/entities/*": ["./src/business/domain/entities/*"],
+      "@/business/*": ["./src/business/*"],
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/components/CreateCardForm.test.tss"],
   "exclude": ["node_modules"]
 }
