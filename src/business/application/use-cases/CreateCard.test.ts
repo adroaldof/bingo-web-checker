@@ -39,3 +39,27 @@ it('creates an empty card', async () => {
     ]),
   )
 })
+
+it('creates a card with not carefully throwing numbers', async () => {
+  const createCard = new CreateCard()
+  const input = {
+    cardNumbers: `1 , 2, 3 ,  4,5
+,6    , 7 ,8,9,10 ONLY NUMBERS WILL BE KEPT
+   ,  1 1, 1 2 ,13,14,    1 .5
+      ,16,17,18,19,20         ,
+      2 XXX 1 ,22,23,WILL 2 BE 4 CLEANED        `,
+  }
+  const output = createCard.execute(input)
+  const { spots } = output
+  expect(spots).toEqual(
+    expect.arrayContaining([
+      expect.arrayContaining([
+        expect.objectContaining({
+          uuid: expect.any(String),
+          number: expect.any(Number),
+          isDrawn: expect.any(Boolean),
+        }),
+      ]),
+    ]),
+  )
+})
