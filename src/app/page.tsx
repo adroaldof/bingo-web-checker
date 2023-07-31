@@ -1,7 +1,6 @@
 'use client'
 import { main } from '@/business/main'
 import { Cards } from '@/components/Cards'
-import { CreateCardForm } from '@/components/CreateCardForm'
 import { DrawnNumberForm } from '@/components/DrawnNumberForm'
 import { DrawnNumbers } from '@/components/DrawnNumbers'
 import { LastDrawnNumbers } from '@/components/LastDrawnNumbers'
@@ -28,14 +27,16 @@ export default function Home() {
       <header className="py-4 md:p-4 md:px-0">
         <h1 className="mb-0">Bingo</h1>
       </header>
-      <aside className="grid w-full gap-4 mb-4 md:grid-cols-2 lg:grid-cols-3">
-        <DrawnNumberForm onSuccess={addDrawnNumber} />
-        <LastDrawnNumbers drawnNumbers={drawnNumbers} />
-        <DrawnNumbers drawnNumbers={drawnNumbers} />
-      </aside>
-      <aside className="w-full">
-        <Cards cards={cards} addCard={addCard} />
-      </aside>
+      <div className="grid grid-cols-4 gap-4">
+        <aside className="flex flex-col gap-4">
+          <DrawnNumberForm onSuccess={addDrawnNumber} />
+          <LastDrawnNumbers drawnNumbers={drawnNumbers} />
+          <DrawnNumbers drawnNumbers={drawnNumbers} />
+        </aside>
+        <aside className="col-span-3">
+          <Cards cards={cards} addCard={addCard} />
+        </aside>
+      </div>
     </main>
   )
 }

@@ -101,14 +101,14 @@ it('shows wrong numbers length message', async () => {
 })
 
 it('shows duplicated numbers message', async () => {
-  const [firstNumber, ...numbersInput] = generateUniqueCardNumbers()
-  const input = [firstNumber, firstNumber, ...numbersInput.slice(0, -1)].join(',')
+  const [firstNumber, secondNumber, ...numbersInput] = generateUniqueCardNumbers()
+  const input = [firstNumber, firstNumber, secondNumber, secondNumber, ...numbersInput.slice(0, -2)]
   const { user } = setup(<CreateCardForm onSuccess={onSuccess} />)
   const cardIdInput = await screen.findByRole('textbox', { name: /id/i })
   const cardId = faker.string.nanoid()
   await user.type(cardIdInput, cardId)
   const cardNumbersInput = await screen.findByRole('textbox', { name: /números/i })
-  await user.type(cardNumbersInput, input)
+  await user.type(cardNumbersInput, input.join(','))
   await user.click(screen.getByRole('button', { name: /adicionar cartela de bingo/i }))
-  await screen.findByText(/não pode haver números repetidos/i)
+  await screen.findByText(`Não pode haver números repetidos: ${firstNumber}, ${secondNumber}`)
 })

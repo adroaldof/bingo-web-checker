@@ -90,14 +90,15 @@ const createCardSchema = z.object({
     if (invalidNumbers.length > 0) {
       context.addIssue({
         code: z.ZodIssueCode.custom,
-        message: `Números inválidos ${invalidNumbers.join(', ')}. Deve incluir números entre 1 e 90`,
+        message: `Números inválidos: ${invalidNumbers.join(', ')}. Deve incluir números entre 1 e 90`,
       })
     }
     const uniqueNumbers = new Set(numbers)
     if (uniqueNumbers.size !== numbers.length) {
+      const repeatedNumbers = numbers.filter((value, index, self) => self.indexOf(value) !== index)
       context.addIssue({
         code: z.ZodIssueCode.custom,
-        message: 'Não pode haver números repetidos',
+        message: `Não pode haver números repetidos: ${repeatedNumbers.join(', ')}`,
       })
     }
     if (spots.length !== 24) {

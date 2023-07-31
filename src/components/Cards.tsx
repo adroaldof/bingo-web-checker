@@ -5,7 +5,7 @@ import { CreateCardForm } from './CreateCardForm'
 export const Cards = ({ cards, addCard }: { cards: Card[]; addCard: (card: Card) => void }) => {
   return (
     <div className="w-full p-4 bg-slate-100">
-      <h3>Cartelas</h3>
+      <h3 className="m-0">Cartelas</h3>
       {cards.length ? (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {cards.map((card) => (

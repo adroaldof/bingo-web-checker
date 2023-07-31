@@ -29,7 +29,7 @@ export const DrawnNumberForm = ({ onSuccess }: DrawNumberFormProps) => {
 
   return (
     <div className="w-full p-4 bg-slate-200">
-      <h3>Adicionar Número Sorteado</h3>
+      <h3 className="m-0">Adicionar Número Sorteado</h3>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col justify-between gap-2">
         <div className="w-full">
           <label className="block">
