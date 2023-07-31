@@ -1,3 +1,4 @@
+import React from 'react'
 import { main } from '@/business/main'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -76,17 +77,30 @@ const createCardSchema = z.object({
         message: 'Deve incluir números separados por vírgula. Exemplo: 1,2,3,4,5...',
       })
     }
-    const numbers = value.split(',')
-    const invalidNumbers = numbers.filter((value) => {
-      return new RegExp('[^0-9\r\n]+').test(value) || +value < 1 || +value > 90
-    })
+    const spots = value.split(',').map((value) => String(value).replace(/[^0-9]/g, ''))
+    const emptyNumbers = spots.filter((value) => value === '')
+    if (emptyNumbers.length > 0) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Há descrições que não contém número. Por favor, verifique os espaço entre as vírgulas novamente',
+      })
+    }
+    const numbers = spots.map((value) => +value)
+    const invalidNumbers = numbers.filter((value) => value < 1 || value > 90)
     if (invalidNumbers.length > 0) {
       context.addIssue({
         code: z.ZodIssueCode.custom,
         message: `Números inválidos ${invalidNumbers.join(', ')}. Deve incluir números entre 1 e 90`,
       })
     }
-    if (numbers.length !== 24) {
+    const uniqueNumbers = new Set(numbers)
+    if (uniqueNumbers.size !== numbers.length) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Não pode haver números repetidos',
+      })
+    }
+    if (spots.length !== 24) {
       context.addIssue({
         code: z.ZodIssueCode.custom,
         message: 'Deve incluir 24 números separados por vírgula',
